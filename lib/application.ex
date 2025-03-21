@@ -3,6 +3,7 @@ defmodule MyPlugApp.Application do
 
   def start(_type, _args) do
     port = String.to_integer(System.get_env("PORT") || "4000")
+    IO.puts("🚀 Starting server on PORT #{port}")
 
     children = [
       {Plug.Cowboy, scheme: :http, plug: MyPlugApp.Router, options: [port: port]}
