@@ -1,6 +1,12 @@
 defmodule MyPlugApp.Router do
   use Plug.Router
 
+  # Dynamic port fetch from ENV for deployment (Fly.io compatibility)
+  def child_spec(_) do
+    port = String.to_integer(System.get_env("PORT") || "4000")
+    Plug.Cowboy.child_spec(scheme: :http, plug: __MODULE__, options: [port: port])
+  end
+
   plug Plug.Parsers, parsers: [:urlencoded, :multipart, :json], pass: ["*/*"], json_decoder: Jason
   plug :match
   plug :dispatch
@@ -29,7 +35,7 @@ defmodule MyPlugApp.Router do
 
   get "/auth/google/callback" do
     user_info = get_google_user_info(conn)
-    
+
     conn
     |> put_session(:user, user_info)
     |> redirect("/dashboard")
@@ -85,4 +91,4 @@ defmodule MyPlugApp.Router do
     |> put_resp_header("location", path)
     |> send_resp(302, "")
   end
-end  
+end
