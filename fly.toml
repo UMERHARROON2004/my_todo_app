@@ -1,4 +1,20 @@
-app = "my-plug-app"
+app = "my-todo-app-umer" # You can change this name later
 
 [build]
-  # build settings here
+  builder = "flyio/builder-elixir"
+
+[env]
+  PORT = "4000"
+
+[[services]]
+  internal_port = 4000
+  protocol = "tcp"
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
