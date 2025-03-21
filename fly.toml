@@ -1,0 +1,4 @@
+app = "my-plug-app"
+
+[build]
+  # build settings here
