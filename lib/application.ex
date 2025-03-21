@@ -2,11 +2,8 @@ defmodule MyPlugApp.Application do
   use Application
 
   def start(_type, _args) do
-    port = String.to_integer(System.get_env("PORT") || "4000")
-    IO.puts("🚀 Starting server on PORT #{port}")
-
     children = [
-      {Plug.Cowboy, scheme: :http, plug: MyPlugApp.Router, options: [port: port]}
+      MyPlugApp.Router
     ]
 
     opts = [strategy: :one_for_one, name: MyPlugApp.Supervisor]
